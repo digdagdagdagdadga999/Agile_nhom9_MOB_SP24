@@ -16,6 +16,25 @@ const SignUp = ({ navigation }) => {
   const [tenUser, setTenUser] = useState("");
 
   const saveDangKy = () => {
+    // Kiểm tra nếu bất kỳ trường nào trống
+    if (
+      username.trim() === "" ||
+      password.trim() === "" ||
+      sodienthoai.trim() === "" ||
+      tenUser.trim() === ""
+    ) {
+      Alert.alert("Thông báo!!!", "Vui lòng điền đầy đủ thông tin đăng ký");
+      return;
+    }
+
+    // Kiểm tra số điện thoại theo định dạng Việt Nam
+    const phoneRegex =
+      /^(0[2-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9]|6[0-9]|7[0-9]|8[0-9]|9[0-9])\d{8}$/;
+    if (!phoneRegex.test(sodienthoai)) {
+      Alert.alert("Thông báo!!!", "Số điện thoại không hợp lệ");
+      return;
+    }
+
     let objUser = {
       username: username,
       password: password,

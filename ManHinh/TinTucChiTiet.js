@@ -191,18 +191,18 @@ const TinTucChiTiet = (props) => {
     }
   };
 
-  const binhluanItem = ({ item }) => {
-    return (
-      <View>
-        {item.conments.map((comment, index) => (
-          <View key={index}>
-            <Text style={{ fontWeight: "bold" }}>{comment.user}</Text>
-            <Text>{comment.cmt}</Text>
-          </View>
-        ))}
-      </View>
-    );
-  };
+  // const binhluanItem = ({ item }) => {
+  //   return (
+  //     <View>
+  //       {item.conments.map((comment, index) => (
+  //         <View key={index}>
+  //           <Text style={{ fontWeight: "bold" }}>{comment.user}</Text>
+  //           <Text>{comment.cmt}</Text>
+  //         </View>
+  //       ))}
+  //     </View>
+  //   );
+  // };
   return (
     <>
       <ScrollView style={styles.contener}>
@@ -240,32 +240,6 @@ const TinTucChiTiet = (props) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-
-      <View style={{ padding: 15 }}>
-        <Text style={{ fontSize: 15, fontWeight: "bold" }}>Bình luận</Text>
-
-        <FlatList
-          style={{ width: "100%", height: 100 }}
-          data={arrCMT}
-          renderItem={binhluanItem}
-          keyExtractor={(item_bl) => item_bl.id.toString()} // Add keyExtractor
-        />
-
-        <View style={styles.viewCMT}>
-          <TextInput
-            value={cmt}
-            style={styles.textInput}
-            placeholder="Bình luận"
-            maxLength={500}
-            onChangeText={(value) => {
-              setCMT(value);
-            }}
-          />
-          <Pressable style={styles.buttonDang} onPress={AddComment}>
-            <Text>Đăng</Text>
-          </Pressable>
-        </View>
-      </View>
     </>
   );
 };
@@ -309,3 +283,31 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+{
+  /* <View style={{ padding: 15 }}>
+        <Text style={{ fontSize: 15, fontWeight: "bold" }}>Bình luận</Text>
+
+        <FlatList
+          style={{ width: "100%", height: 100 }}
+          data={arrCMT}
+          renderItem={binhluanItem}
+          keyExtractor={(item_bl) => item_bl.id.toString()} // Add keyExtractor
+        />
+
+        <View style={styles.viewCMT}>
+          <TextInput
+            value={cmt}
+            style={styles.textInput}
+            placeholder="Bình luận"
+            maxLength={500}
+            onChangeText={(value) => {
+              setCMT(value);
+            }}
+          />
+          <Pressable style={styles.buttonDang} onPress={AddComment}>
+            <Text>Đăng</Text>
+          </Pressable>
+        </View>
+      </View> */
+}

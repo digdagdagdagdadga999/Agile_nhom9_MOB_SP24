@@ -21,6 +21,12 @@ const Login = ({ navigation }) => {
     console.log("Password:", password);
     let url_api = "https://651ea7d444a3a8aa4768be06.mockapi.io/taikhoan";
 
+    // Kiểm tra nếu username hoặc password trống
+    if (username.trim() === "" || password.trim() === "") {
+      Alert.alert("Thông Báo", "Vui lòng nhập đầy đủ username và password");
+      return;
+    }
+
     fetch(url_api, {
       method: "GET",
       headers: {

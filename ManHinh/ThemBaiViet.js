@@ -14,6 +14,11 @@ const ThemBaiViet = (props) => {
   const [hinhanh, setHinhAnh] = useState("");
 
   const SaveBaiViet = () => {
+    // Kiểm tra nếu có bất kỳ trường nào trống, hiển thị thông báo và không thực hiện lưu
+    if (!tieude || !noidung || !hinhanh) {
+      Alert.alert("Thông Báo", "Vui lòng điền đầy đủ thông tin");
+      return;
+    }
     let objBaiViet = { title: tieude, content: noidung, image: hinhanh };
     let url_baiviet = "https://651ea7d444a3a8aa4768be06.mockapi.io/baiviet";
 
