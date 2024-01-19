@@ -1,134 +1,172 @@
+import React, { useState, useEffect } from "react";
 import {
   FlatList,
   StyleSheet,
   Text,
   View,
-  Dimensions,
-  ActivityIndicator,
   Image,
-  TextInput,
-  Pressable,
   TouchableOpacity,
+  ActivityIndicator,
+  Share,
 } from "react-native";
-import React, { useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 const ListNews = (props) => {
   const arr = props.route.params?.user;
-  const [loadBaiViet, SetLoadBaiViet] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [newsList, setNewsList] = useState([]);
+  const [likedItems, setLikedItems] = useState([]);
 
-  const [dsBaiViet, setdsBaiViet] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const url = "https://651ea7d444a3a8aa4768be06.mockapi.io/baiviet";
+        const response = await fetch(url);
+        const data = await response.json();
+        setNewsList(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
-  const getListBaiViet = async () => {
-    let url_baiviet = "https://651ea7d444a3a8aa4768be06.mockapi.io/baiviet";
-    try {
-      const loadDuLieu = await fetch(url_baiviet);
-      const jsonBaiViet = await loadDuLieu.json();
-      setdsBaiViet(jsonBaiViet);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      SetLoadBaiViet(false);
+  const handleLike = (itemId) => {
+    const isLiked = likedItems.includes(itemId);
+
+    if (!isLiked) {
+      setLikedItems([...likedItems, itemId]);
+    } else {
+      setLikedItems(likedItems.filter((id) => id !== itemId));
     }
   };
 
-  React.useEffect(() => {
-    const unsucrible = props.navigation.addListener("focus", () => {
-      getListBaiViet();
-    });
-    return unsucrible;
-  }, [props.navigation]);
+  const handleShare = async (itemId) => {
+    try {
+      const item = newsList.find((news) => news.id === itemId);
 
-  const BaiVietItem = ({ item }) => {
+      if (!item) {
+        console.error(`Item with ID ${itemId} not found.`);
+        return;
+      }
+
+      const shareOptions = {
+        title: item.title,
+        message: item.content,
+        url: item.image,
+      };
+
+      await Share.share(shareOptions);
+    } catch (error) {
+      console.error('Error sharing:', error.message);
+    }
+  };
+
+  const NewsItem = ({ item }) => {
+    const isLiked = likedItems.includes(item.id);
+
     return (
-      <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.viewBanTin}
-          onPress={() => {
-            props.navigation.navigate("tintucct", {
-              item_sp: item,
-              users: arr,
-            });
-          }}
-        >
-          <Image style={styles.imageStyle} source={{ uri: item.image }} />
-          <View style={styles.content}>
-            <Text style={styles.tieude}>{item.title}</Text>
-            <Text style={styles.noidung} numberOfLines={3}>
-              {item.content}
-            </Text>
+      <TouchableOpacity
+        style={styles.newsContainer}
+        onPress={() => {
+          props.navigation.navigate("tintucct", {
+            item_sp: item,
+            users: arr,
+          });
+        }}
+      >
+        <Image style={styles.imageStyle} source={{ uri: item.image }} />
+        <View style={styles.content}>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.description} numberOfLines={3}>
+            {item.content}
+          </Text>
+          <View style={styles.interactions}>
+            <TouchableOpacity
+              style={[styles.action, isLiked && styles.likedAction]}
+              onPress={() => handleLike(item.id)}
+            >
+              <Ionicons name="ios-thumbs-up" size={20} color="#555" />
+              <Text>Like</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.action}
+              onPress={() => handleShare(item.id)}
+            >
+              <Ionicons name="ios-share" size={20} color="#555" />
+              <Text>Share</Text>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
     );
   };
+
   return (
-    <View>
-      {loadBaiViet ? (
+    <View style={styles.container}>
+      {loading ? (
         <ActivityIndicator />
       ) : (
         <FlatList
-          data={dsBaiViet}
-          keyExtractor={(item_sp) => {
-            return item_sp.id;
-          }}
-          renderItem={BaiVietItem}
+          data={newsList}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={NewsItem}
         />
       )}
     </View>
   );
 };
 
-export default ListNews;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    margin: 5,
-    backgroundColor: "#C0C0C0",
-    borderRadius: 10,
+    backgroundColor: "#fff",
+    padding: 10,
+  },
+  newsContainer: {
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    borderColor: "#ccc",
+    paddingVertical: 10,
   },
   imageStyle: {
-    width: 300,
-    height: 200,
+    width: 100,
+    height: 100,
     borderRadius: 10,
-    marginStart: 30,
-    marginTop: 10,
+    marginRight: 10,
   },
-  tieude: {
-    fontSize: 15,
+  content: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 18,
     fontWeight: "bold",
     marginBottom: 5,
   },
-  noidung: {
-    fontSize: 10,
-    fontStyle: "italic",
+  description: {
+    fontSize: 14,
+    color: "#555",
   },
-  content: {
-    width: Dimensions.get("window").width - 96 - 10,
-    marginStart: 30,
-  },
-  chitiet: {
-    textDecorationLine: "underline",
-    fontSize: 10,
-    color: "blue",
-    fontStyle: "italic",
-  },
-  imageyeuthich: {
+  interactions: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginStart: 10,
-    marginEnd: 10,
-    marginTop: 20,
+    marginTop: 10,
   },
-  inputbinhluan: {
-    borderRadius: 10,
+  action: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 5,
     borderWidth: 1,
-    padding: 7,
-    margin: 5,
-    width: 240,
+    borderColor: "#ccc",
   },
-  viewBanTin: {
-    borderBottomWidth: 0.3,
+  likedAction: {
+    borderColor: "red",
+    backgroundColor: "#FFD6D6", // Màu nền khi đã like
   },
 });
+
+export default ListNews;

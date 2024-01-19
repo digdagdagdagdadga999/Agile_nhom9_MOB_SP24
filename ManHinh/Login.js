@@ -1,17 +1,10 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-  Pressable,
-  Alert,
-} from "react-native";
+import { StyleSheet, Text, View, TextInput, Pressable, Alert, Image } from "react-native";
 import React, { useState } from "react";
 
 const Login = ({ navigation }) => {
   const [username, setusername] = useState("");
   const [password, setPassword] = useState("");
+
   const chuyenManHinh = () => {
     navigation.navigate("dangky");
   };
@@ -20,12 +13,6 @@ const Login = ({ navigation }) => {
     console.log("Email:", username);
     console.log("Password:", password);
     let url_api = "https://651ea7d444a3a8aa4768be06.mockapi.io/taikhoan";
-
-    // Kiểm tra nếu username hoặc password trống
-    if (username.trim() === "" || password.trim() === "") {
-      Alert.alert("Thông Báo", "Vui lòng nhập đầy đủ username và password");
-      return;
-    }
 
     fetch(url_api, {
       method: "GET",
@@ -51,16 +38,25 @@ const Login = ({ navigation }) => {
         console.log(error);
       });
   };
+  
   return (
     <View style={styles.containerLogin}>
-      <Text style={styles.texts}>Đăng Nhập</Text>
-      <Text style={styles.textUserName}>Tên Đăng Nhập:</Text>
+      <View style={styles.logoContainer}>
+        <Image
+          source={{
+            uri:
+              "https://tse4.mm.bing.net/th?id=OIP.nDR4yc1FZaFpGBSLd-Pv1QHaE8&pid=Api&P=0&h=220",
+          }}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+      </View>
+
       <TextInput
         placeholder="Nhập tên đăng nhập"
         style={styles.textInput}
         onChangeText={(txt) => setusername(txt)}
       />
-      <Text style={styles.textUserName}>Password:</Text>
       <TextInput
         placeholder="Nhập password"
         style={styles.textInput}
@@ -68,9 +64,6 @@ const Login = ({ navigation }) => {
         onChangeText={(txt) => setPassword(txt)}
       />
 
-      {/* Pressable là một thành phần (component) cho phép xử lý sự kiện nhấn (press) từ người dùng trên một phần tử (element) nhất định. 
-      Pressable cũng hỗ trợ xử lý các sự kiện tương tác khác như hover, focus, và blur. 
-      Bằng cách sử dụng Pressable, bạn có thể tạo ra các thành phần như nút (button) hoặc hình ảnh (image) có thể được nhấn để thực hiện một hành động nào đó. */}
       <Pressable style={styles.buttonDangNhap} onPress={() => saveDangNhap()}>
         <Text style={styles.textButton}>Đăng Nhập</Text>
       </Pressable>
@@ -93,27 +86,14 @@ export default Login;
 const styles = StyleSheet.create({
   containerLogin: {
     flex: 1,
-    marginStart: 10,
-    marginEnd: 10,
-    flexDirection: "column",
+    marginHorizontal: 20,
     marginTop: 30,
-  },
-  texts: {
-    fontWeight: "bold",
-    fontSize: 40,
-    textAlign: "center",
-    color: "#050505",
-    marginBottom: 50,
-  },
-  textUserName: {
-    fontSize: 15,
-    fontWeight: "bold",
   },
   textInput: {
     height: 48,
     borderRadius: 10,
     borderWidth: 1,
-    margin: 15,
+    marginVertical: 10,
     padding: 10,
   },
   viewDangKy: {
@@ -123,7 +103,7 @@ const styles = StyleSheet.create({
   },
   buttonDangNhap: {
     borderRadius: 10,
-    marginTop: 30,
+    marginTop: 20,
     height: 48,
     backgroundColor: "#1877F2",
     alignItems: "center",
@@ -133,5 +113,13 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     fontWeight: "bold",
+  },
+  logoContainer: {
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  logo: {
+    width: 150,
+    height: 150,
   },
 });

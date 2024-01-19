@@ -112,7 +112,29 @@ const TabNavi = (props) => {
           ),
         }}
       />
-
+       <tab.Screen
+        name="tintucyeuthich"
+        component={TinTucChiTiet}
+        initialParams={{ user: user }}
+        options={{
+          title: "tin tức chi tiết",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="heart" size={size} color={color} />
+          ),
+        }}
+      />
+      <tab.Screen
+        name="doimk"
+        component={DoiMatKhau}
+        initialParams={{ user: user }}
+        options={{
+          title: "Đổi mật khẩu",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person" size={size} color={color} />
+          ),
+        }}
+      />
+       
       <tab.Screen
         name="caidat"
         component={Settings}
