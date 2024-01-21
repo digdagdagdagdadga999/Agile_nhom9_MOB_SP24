@@ -9,10 +9,8 @@ import {
 import React, { useEffect, useState } from "react";
 
 const DoiMatKhau = (props) => {
-  const userLogin = props.route.params?.nguoidung;
-  const [oldPass, setOldPass] = useState(
-    props.route.params?.nguoidung?.password
-  );
+  const userLogin = props.route.params?.user;
+  const [oldPass, setOldPass] = useState(props.route.params?.user?.password);
   const [newPass, setNewPass] = useState("");
   const [ReNewpass, setReNewpass] = useState("");
   // const [user, setUser] = useState(null);
@@ -51,7 +49,7 @@ const DoiMatKhau = (props) => {
         if (res.status == 200) {
           console.log(res.status);
           Alert.alert("Thông báo", "Đổi mật khẩu thành công");
-          props.navigation.navigate("caidat");
+          props.navigation.navigate("DangNhap");
         }
       })
       .catch((error) => {

@@ -8,11 +8,20 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const ListPerson = (props) => {
   const [loadUser, setLoadUser] = useState(true);
   const [dsUser, setdsUser] = useState([]);
+  const userlogin = props.route.params?.user;
+  useEffect(() => {
+    if (!(userlogin?.username === "admin")) {
+      Alert.alert("Thông báo", "Chức năng này chỉ dành cho admin");
+      props.navigation.navigate("DangNhap"); // Redirect to "nguoidung" screen
+    } else {
+      loadNguoiDung();
+    }
+  }, [props.navigation, userlogin]);
 
   const loadNguoiDung = async () => {
     let url_user = "https://651ea7d444a3a8aa4768be06.mockapi.io/taikhoan";

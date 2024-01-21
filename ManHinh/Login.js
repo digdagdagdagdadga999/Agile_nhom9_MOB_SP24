@@ -1,4 +1,12 @@
-import { StyleSheet, Text, View, TextInput, Pressable, Alert, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Pressable,
+  Alert,
+  Image,
+} from "react-native";
 import React, { useState } from "react";
 
 const Login = ({ navigation }) => {
@@ -10,6 +18,12 @@ const Login = ({ navigation }) => {
   };
 
   const saveDangNhap = () => {
+    // Kiểm tra nếu username hoặc password trống
+    if (username.trim() === "" || password.trim() === "") {
+      Alert.alert("Thông Báo", "Vui lòng nhập đầy đủ username và password");
+      return;
+    }
+
     console.log("Email:", username);
     console.log("Password:", password);
     let url_api = "https://651ea7d444a3a8aa4768be06.mockapi.io/taikhoan";
@@ -33,19 +47,26 @@ const Login = ({ navigation }) => {
           Alert.alert("Thông Báo", "Đăng Nhập thành công");
           navigation.navigate("TinTuc", { user: foundUser });
         }
+        const foundUserSai = data.find(
+          (user) => user.username != username || user.password != password
+        );
+        console.log("Found User:", foundUserSai);
+        if (foundUserSai) {
+          Alert.alert("Thông Báo", "Tên đăng nhập hoặc mật khẩu sai");
+          return;
+        }
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  
+
   return (
     <View style={styles.containerLogin}>
       <View style={styles.logoContainer}>
         <Image
           source={{
-            uri:
-              "https://tse4.mm.bing.net/th?id=OIP.nDR4yc1FZaFpGBSLd-Pv1QHaE8&pid=Api&P=0&h=220",
+            uri: "https://tse4.mm.bing.net/th?id=OIP.nDR4yc1FZaFpGBSLd-Pv1QHaE8&pid=Api&P=0&h=220",
           }}
           style={styles.logo}
           resizeMode="contain"

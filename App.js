@@ -16,6 +16,7 @@ import DoiMatKhau from "./ManHinh/DoiMatKhau";
 import UpdateUser from "./ManHinh/UpdateUser";
 import TinTucChiTiet from "./ManHinh/TinTucChiTiet";
 import TinTucYeuThich from "./ManHinh/TinTucYeuThich";
+import { AntDesign } from "@expo/vector-icons";
 
 // quản lý các màn hình
 const stack = createNativeStackNavigator();
@@ -112,14 +113,14 @@ const TabNavi = (props) => {
           ),
         }}
       />
-       <tab.Screen
-        name="tintucyeuthich"
-        component={TinTucChiTiet}
+      <tab.Screen
+        name="nguoidung"
+        component={ListPerson}
         initialParams={{ user: user }}
         options={{
-          title: "tin tức chi tiết",
+          title: "Người Dùng",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="heart" size={size} color={color} />
+            <Ionicons name="person" size={size} color={color} />
           ),
         }}
       />
@@ -130,11 +131,11 @@ const TabNavi = (props) => {
         options={{
           title: "Đổi mật khẩu",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person" size={size} color={color} />
+            <AntDesign name="lock1" size={24} color="black" />
           ),
         }}
       />
-       
+
       <tab.Screen
         name="caidat"
         component={Settings}

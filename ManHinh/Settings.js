@@ -20,23 +20,22 @@ const Settings = (props) => {
     }
   };
 
-  const ChuyenmanhinhDoiMK = () => {
-    if (userlogin?.username === "admin") {
-      Alert.alert("Thông báo", "Chức năng này chỉ dành cho người dùng");
-    } else {
-      props.navigation.navigate("doimk", {
-        nguoidung: props.route.params?.user,
-      });
-    }
-  };
+  // const ChuyenmanhinhDoiMK = () => {
+  //   if (userlogin?.username === "admin") {
+  //     Alert.alert("Thông báo", "Chức năng này chỉ dành cho người dùng");
+  //   } else {
+  //     props.navigation.navigate("doimk", {
+  //       nguoidung: props.route.params?.user,
+  //     });
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
           source={{
-            uri:
-              "https://tse4.mm.bing.net/th?id=OIP.nDR4yc1FZaFpGBSLd-Pv1QHaE8&pid=Api&P=0&h=220",
+            uri: "https://tse4.mm.bing.net/th?id=OIP.nDR4yc1FZaFpGBSLd-Pv1QHaE8&pid=Api&P=0&h=220",
           }}
           style={styles.logo}
           resizeMode="contain"
@@ -51,10 +50,6 @@ const Settings = (props) => {
           }}
         >
           <Text style={styles.buttonText}>Đăng xuất</Text>
-        </Pressable>
-
-        <Pressable style={styles.buttons} onPress={ChuyenmanhinhDoiMK}>
-          <Text style={styles.buttonText}>Đổi mật khẩu</Text>
         </Pressable>
 
         <Pressable style={styles.buttons} onPress={Chuyenmanhinh}>
@@ -91,11 +86,11 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
   },
   imageContainer: {
-    marginBottom: 30,
+    marginBottom: 15,
   },
   logo: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
   },
   buttonContainer: {
     width: "100%",
