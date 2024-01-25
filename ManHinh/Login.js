@@ -46,13 +46,8 @@ const Login = ({ navigation }) => {
         if (foundUser) {
           Alert.alert("Thông Báo", "Đăng Nhập thành công");
           navigation.navigate("TinTuc", { user: foundUser });
-        }
-        const foundUserSai = data.find(
-          (user) => user.username != username || user.password != password
-        );
-        console.log("Found User:", foundUserSai);
-        if (foundUserSai) {
-          Alert.alert("Thông Báo", "Tên đăng nhập hoặc mật khẩu sai");
+        } else {
+          Alert.alert("Thông Báo", "Sai username hoặc password");
           return;
         }
       })
