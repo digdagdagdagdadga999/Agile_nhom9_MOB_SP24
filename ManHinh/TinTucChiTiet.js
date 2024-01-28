@@ -138,7 +138,7 @@ const TinTucChiTiet = (props) => {
   };
 
   React.useLayoutEffect(() => {
-    getCMT();
+    // getCMT();
     checkfollow();
   }, []);
 

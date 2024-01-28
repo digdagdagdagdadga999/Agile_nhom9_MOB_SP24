@@ -10,7 +10,7 @@ import {
 import React, { useState } from "react";
 
 const TinTucYeuThich = (props) => {
-  const arr = props.route.params?.user.post;
+  const arr = props.route.params?.userss?.post;
   const [arrPost, setPost] = useState([]);
   const [loading, setloading] = useState(true);
 
@@ -48,10 +48,10 @@ const TinTucYeuThich = (props) => {
     return (
       <TouchableOpacity
         style={styles.viewBanTin}
-        // onPress={() => {
-        //   console.log(props.route);
-        //   props.navigation.navigate("tintucct", { items: item });
-        // }}
+        onPress={() => {
+          console.log(props.route);
+          props.navigation.navigate("tintucct", { items: item });
+        }}
       >
         <Image source={{ uri: item.image }} style={{ width: 60, height: 60 }} />
         <Text
